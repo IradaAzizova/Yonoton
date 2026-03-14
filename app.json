@@ -42,19 +42,13 @@
           "recordAudioAndroid": true
         }
       ],
+      "expo-barcode-scanner",
       [
-        "expo-splash-screen",
+        "react-native-vision-camera",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+          "enableCodeScanner": true
         }
-      ],
-      "expo-barcode-scanner"
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

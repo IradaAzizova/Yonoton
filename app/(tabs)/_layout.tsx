@@ -1,21 +1,18 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs } from "expo-router";
+import React from "react";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { HapticTab } from "@/components/haptic-tab";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarActiveTintColor: "#000",
+        tabBarInactiveTintColor: "gray",
       }}
     >
       <Tabs.Screen
@@ -23,7 +20,7 @@ export default function TabLayout() {
         options={{
           title: "Products",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="shopping-cart" size={28} color="black" />
+            <MaterialIcons name="shopping-cart" color={color} size={24} />
           ),
         }}
       />
@@ -32,7 +29,7 @@ export default function TabLayout() {
         options={{
           title: "Map",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="map" size={28} color="black" />
+            <FontAwesome name="map" color={color} size={24} />
           ),
         }}
       />
