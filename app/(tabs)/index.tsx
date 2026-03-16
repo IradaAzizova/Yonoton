@@ -70,7 +70,7 @@ export default function HomeScreen() {
             {favorites.includes(product.id) ? (
               <AntDesign
                 name="heart"
-                color="#000"
+                color="#FF0000"
                 size={24}
                 onPress={() => handleFavorites(product.id)}
               />
