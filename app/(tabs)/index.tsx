@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,19 +15,28 @@ import Scanner from "@/components/BarCodeScanner/scanner";
 export default function HomeScreen() {
   const [isScanning, setIsScanning] = useState(false);
   const [favorites, setFavorites] = useState<number[]>([]);
+  const alertShown = useRef(false);
 
   const handleBarcodeScanned = (scanningResult: { data: string }) => {
+    if (alertShown.current) return;
+    alertShown.current = true;
     setIsScanning(false);
     const scannedData = scanningResult.data;
 
     const foundProduct = products.find((p) => p.productEan === scannedData);
 
     if (foundProduct) {
-      Alert.alert("Scan was successful");
+      Alert.alert("Scan was successful", "", [
+        { text: "OK", onPress: () => (alertShown.current = false) },
+      ]);
     } else {
       Alert.alert("Not Found", ``, [
         { text: "Try Again", onPress: () => setIsScanning(true) },
-        { text: "Cancel", style: "cancel" },
+        {
+          text: "Cancel",
+          style: "cancel",
+          onPress: () => (alertShown.current = false),
+        },
       ]);
     }
   };

@@ -1,4 +1,4 @@
-import { CameraView } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 
 interface ScannerProps {
@@ -10,6 +10,42 @@ export default function Scanner({
   setIsScanning,
   handleBarcodeScanned,
 }: ScannerProps) {
+  const [permission, requestPermission] = useCameraPermissions();
+
+  if (!permission) {
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.permissionContainer}>
+        <View style={styles.permissionBox}>
+          <Text style={styles.permissionTitle}>Camera Permission</Text>
+
+          <Text style={styles.permissionText}>
+            This app needs camera access to scan barcodes.
+          </Text>
+
+          <View style={styles.permissionButtons}>
+            <Pressable
+              style={[styles.button, styles.denyButton]}
+              onPress={() => setIsScanning(false)}
+            >
+              <Text>Deny</Text>
+            </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.allowButton]}
+              onPress={requestPermission}
+            >
+              <Text style={{color: 'white'}}>Allow</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={StyleSheet.absoluteFill}>
       <CameraView
@@ -103,5 +139,51 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     letterSpacing: 1,
+  },
+  permissionContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+
+  permissionBox: {
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 16,
+    padding: 24,
+    alignItems: "center",
+  },
+
+  permissionTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    marginBottom: 10,
+  },
+
+  permissionText: {
+    fontSize: 15,
+    color: "#555",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+
+  permissionButtons: {
+    flexDirection: "row",
+    gap: 10,
+  },
+
+  button: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+
+  denyButton: {
+    backgroundColor: "#eee",
+  },
+
+  allowButton: {
+    backgroundColor: "#007AFF",
   },
 });
